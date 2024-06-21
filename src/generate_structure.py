@@ -77,8 +77,7 @@ def initialize_git_repo_and_push_to_github(local_path, repo_name, github_token):
     subprocess.run(['git', 'push', '-u', 'origin', 'master'])
 
 def main():
-    # Input the required Directory structure in the specific format as shown
-
+    # Below is just an example for the structure of the directory. Enter your desired directory structure.
     directory_structure = {
     'directory-structure-generator': {
         'src': ['generate_structure.py'],
