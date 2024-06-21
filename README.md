@@ -103,12 +103,37 @@ directory_structure = {
         '.gitignore': ''
     }
 }
-## Collaboration
+```
+
+ # Contributions
 
 Contributions are welcome! Here's how you can contribute to this project:
 
 1. **Fork** the repository on GitHub.
-2. **Clone** the forked repository to your local machine
-   ```bash
-   git clone https://github.com/your-username/directory-structure-generator.git
-   cd directory-structure-generator
+
+2. **Clone** the forked repository to your local machine:
+
+    ```bash
+    git clone https://github.com/your-username/directory-structure-generator.git
+    cd directory-structure-generator
+    ```
+
+3. **Create a new branch:**
+
+    ```bash
+    git checkout -b feature-branch-name
+    ```
+
+4. **Make your changes and commit them:**
+
+    ```bash
+    git commit -am 'Add new feature'
+    ```
+
+5. **Push to the branch:**
+
+    ```bash
+    git push origin feature-branch-name
+    ```
+
+6. **Create a new Pull Request** on GitHub.
