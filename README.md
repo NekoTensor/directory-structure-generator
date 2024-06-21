@@ -114,7 +114,7 @@ Contributions are welcome! Here's how you can contribute to this project:
 2. **Clone** the forked repository to your local machine:
 
     ```bash
-    git clone https://github.com/your-username/directory-structure-generator.git
+    git clone https://github.com/NekoTensor/directory-structure-generator.git
     cd directory-structure-generator
     ```
 
