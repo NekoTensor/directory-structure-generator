@@ -41,7 +41,7 @@ def generate_directory_tree(directory, prefix=''):
             print('{}|-- {}/'.format(indent, d))
         for f in files:
             print('{}|-- {}'.format(indent, f))
-        break  # prevent further recursion for the current directory
+        break
 
 def initialize_git_repo_and_push_to_github(local_path, repo_name, github_token):
     """
@@ -55,7 +55,6 @@ def initialize_git_repo_and_push_to_github(local_path, repo_name, github_token):
     try:
         os.chdir(local_path)
         
-        # Initialize git repository
         subprocess.run(['git', 'init'], check=True)
         subprocess.run(['git', 'add', '.'], check=True)
         subprocess.run(['git', 'commit', '-m', 'Initial commit'], check=True)
@@ -111,7 +110,7 @@ def main():
         return
     
     # GitHub credentials
-    github_token = input("Enter your GitHub token: ")  # Ensure sing a valid GitHub token
+    github_token = input("Enter your GitHub token: ")  # Ensure using a valid GitHub token
     
     try:
         
