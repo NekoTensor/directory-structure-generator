@@ -52,58 +52,72 @@ def initialize_git_repo_and_push_to_github(local_path, repo_name, github_token):
     - repo_name (str): The name of the GitHub repository.
     - github_token (str): The GitHub token for authentication.
     """
-    os.chdir(local_path)
-    
-    # Initialize git repository
-    subprocess.run(['git', 'init'])
-    subprocess.run(['git', 'add', '.'])
-    subprocess.run(['git', 'commit', '-m', 'Initial commit'])
-    
-    # Creates a Github Repository
-    headers = {
-        'Authorization': f'token {github_token}',
-        'Accept': 'application/vnd.github.v3+json'
-    }
-    data = {
-        'name': repo_name,
-        'private': False
-    }
-    response = requests.post('https://api.github.com/user/repos', json=data, headers=headers)
-    response.raise_for_status()
-    repo_url = response.json()['clone_url']
-    
-    # Push to GitHub
-    subprocess.run(['git', 'remote', 'add', 'origin', repo_url])
-    subprocess.run(['git', 'push', '-u', 'origin', 'master'])
+    try:
+        os.chdir(local_path)
+        
+        # Initialize git repository
+        subprocess.run(['git', 'init'], check=True)
+        subprocess.run(['git', 'add', '.'], check=True)
+        subprocess.run(['git', 'commit', '-m', 'Initial commit'], check=True)
+        
+        # Create a GitHub Repository
+        headers = {
+            'Authorization': f'token {github_token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        data = {
+            'name': repo_name,
+            'private': False
+        }
+        response = requests.post('https://api.github.com/user/repos', json=data, headers=headers)
+        response.raise_for_status()
+        repo_url = response.json().get('clone_url')
+        if not repo_url:
+            raise ValueError("Failed to create GitHub repository. Response: " + str(response.json()))
+        
+        # Push to GitHub
+        subprocess.run(['git', 'remote', 'add', 'origin', repo_url], check=True)
+        subprocess.run(['git', 'push', '-u', 'origin', 'master'], check=True)
+    except Exception as e:
+        print(f"Error during Git initialization or push: {e}")
 
 def main():
-    # Below is just an example for the structure of the directory. Enter your desired directory structure.
+    #Put the directory structure over here...
     directory_structure = {
-    'directory-structure-generator': {
-        'src': ['generate_structure.py'],
-        'README.md': '',
-        '.gitignore': '',
-        'requirements.txt': ''
+        'directory-structure-generator': {
+            'src': ['generate_structure.py'],
+            'README.md': '',
+            '.gitignore': '',
+            'requirements.txt': ''
+        }
     }
-}
 
-    
-    # Prompts the user to enter the path, repo name
     base_path = input("Enter the path where you want to create the directory: ")
-    full_path = os.path.join(base_path, 'Enter the desired name of the repository')
+    repo_name = input("Enter the desired name of the repository: ")
+    full_path = os.path.join(base_path, repo_name)
     
-    # Create directories and files
-    create_directory_structure(full_path, directory_structure)
+    try:
+        
+        create_directory_structure(full_path, directory_structure)
+    except Exception as e:
+        print(f"Error creating directory structure: {e}")
+        return
     
-    # Generate and print the directory tree
-    generate_directory_tree(full_path)
+    try:
+        # Generate and print the directory tree...
+        generate_directory_tree(full_path)
+    except Exception as e:
+        print(f"Error generating directory tree: {e}")
+        return
     
-    # Ask the user for GitHub credentials
-    repo_name = input("Enter the GitHub repository name: ")
-    github_token = input("Enter your GitHub token: ")   #The process of getting github token will be in the readme section..
+    # GitHub credentials
+    github_token = input("Enter your GitHub token: ")  # Ensure sing a valid GitHub token
     
-    # Initializes git repo and pushes to GitHub
-    initialize_git_repo_and_push_to_github(full_path, repo_name, github_token)
+    try:
+        
+        initialize_git_repo_and_push_to_github(full_path, repo_name, github_token)
+    except Exception as e:
+        print(f"Error initializing git repo or pushing to GitHub: {e}")
 
 if __name__ == '__main__':
     main()
